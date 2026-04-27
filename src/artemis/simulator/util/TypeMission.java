@@ -6,4 +6,8 @@ public enum TypeMission {
     LUNE(true, 400000, 0.005),
     MARS(true, 225000000, 0.000015),
     MISSION_PERSONNELLE(false, 1500000, 0.02);
+
+    private final boolean forcedlive;
+    private final long distance;
+    private final double coeffuel;
 }

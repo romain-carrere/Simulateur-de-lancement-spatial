@@ -10,4 +10,12 @@ public enum TypeMission {
     private final boolean forcedlive;
     private final long distance;
     private final double coeffuel;
+
+    private TypeMission(boolean forcedlive, long distance, double coeffuel) {
+        this.forcedlive = forcedlive;
+        this.distance = distance;
+        this.coeffuel = coeffuel;
+    }
+
+    
 }

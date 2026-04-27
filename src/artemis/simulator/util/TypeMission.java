@@ -17,5 +17,7 @@ public enum TypeMission {
         this.coeffuel = coeffuel;
     }
 
-    
+    public boolean isforcedlive() { return forcedlive; }
+    public long getdistance() { return distance; }
+    public double getcoeffuel() { return coeffuel; }
 }

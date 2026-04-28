@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "config",
-        "booster"
+        "booster",
+        "capsule"
     ]
 }

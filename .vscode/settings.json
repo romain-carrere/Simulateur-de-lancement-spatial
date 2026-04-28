@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "config",
         "booster",
-        "capsule"
+        "capsule",
+        "launcher"
     ]
 }

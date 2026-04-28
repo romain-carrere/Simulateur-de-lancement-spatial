@@ -1,22 +1,21 @@
 package artemis.simulator.model.material;
 
-public enum Booster {
-    EAP(6470, 270, 30),
-    SRB(12500, 590, 55),
-    BE3(490, 25, 12);
+public class Booster {
+    
+    private final String name;
+    private final long thrust;
+    private final long weight;
+    private final long price;
 
-    private final long pushAdd;
-    private final long wheight;
-    private final long priceM;
-
-    private Booster(long pushAdd, long wheight, long priceM) {
-        this.pushAdd = pushAdd;
-        this.wheight = wheight;
-        this.priceM = priceM;
+    public Booster(String name, long thrust, long weight, long price) {
+        this.name = name;
+        this.thrust = thrust;
+        this.weight = weight;
+        this.price = price;
     }
     
-    public long getpushAdd() { return pushAdd; }
-    public long getwheight() { return wheight; }
-    public long getpriceM() { return priceM; }
-
+    public String getName() { return name; }
+    public long getThrust() { return thrust; }
+    public long getWeight() { return weight; }
+    public long getPrice() { return price; }
 }

@@ -7,17 +7,17 @@ public enum TypeMission {
     MARS(true, 225000000, 0.000015),
     MISSION_PERSONNELLE(false, 1500000, 0.02);
 
-    private final boolean forcedlive;
+    private final boolean forcedLive;
     private final long distance;
-    private final double coeffuel;
+    private final double fuelCoefficient;
 
-    private TypeMission(boolean forcedlive, long distance, double coeffuel) {
-        this.forcedlive = forcedlive;
+    private TypeMission(boolean forcedLive, long distance, double fuelCoefficient) {
+        this.forcedLive = forcedLive;
         this.distance = distance;
-        this.coeffuel = coeffuel;
+        this.fuelCoefficient = fuelCoefficient;
     }
 
-    public boolean isforcedlive() { return forcedlive; }
-    public long getdistance() { return distance; }
-    public double getcoeffuel() { return coeffuel; }
+    public boolean isForcedLive() { return forcedLive; }
+    public long getDistance() { return distance; }
+    public double getFuelCoefficient() { return fuelCoefficient; }
 }

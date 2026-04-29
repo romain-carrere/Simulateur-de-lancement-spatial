@@ -1,4 +1,4 @@
-package artemis.simulator.model.material;
+package artemis.simulator.model.material.booster;
 
 public class Booster {
     

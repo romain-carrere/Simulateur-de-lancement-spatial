@@ -1,4 +1,4 @@
-package artemis.simulator.model.material;
+package artemis.simulator.model.material.launcher;
 
 import artemis.simulator.model.material.capsule.Capsule;
 import java.util.List;

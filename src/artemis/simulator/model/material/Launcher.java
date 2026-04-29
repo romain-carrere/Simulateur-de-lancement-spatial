@@ -28,5 +28,11 @@ public class Launcher {
         return total;
     }
 
-    
+    public long getTotalPrice() {
+        long total = capsule.getPrice();
+        for (Booster b : boosters) {
+            total += b.getPrice();
+        }
+        return total;
+    }
 }

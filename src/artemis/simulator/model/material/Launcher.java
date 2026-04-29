@@ -20,5 +20,13 @@ public class Launcher {
         this.boosters.add(booster);
     }
 
+    public double getTotalWeight() {
+        double total = capsule.getWeight();
+        for (Booster b : boosters) {
+            total += b.getWeight();
+        }
+        return total;
+    }
+
     
 }

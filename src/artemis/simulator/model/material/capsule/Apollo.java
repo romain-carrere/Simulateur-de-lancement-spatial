@@ -2,7 +2,7 @@ package artemis.simulator.model.material.capsule;
 
 public class Apollo extends Capsule {
     public Apollo() {
-        super(Apollo, true, 3, 5.6, 200);
+        super("Apollo", true, 3, 5.6, 200);
     }
     
 }

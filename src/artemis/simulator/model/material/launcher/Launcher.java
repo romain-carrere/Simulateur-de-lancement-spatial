@@ -1,38 +1,17 @@
 package artemis.simulator.model.material.launcher;
 
-import artemis.simulator.model.material.capsule.Capsule;
-import java.util.List;
-import java.util.ArrayList;
-
-public class Launcher {
-
-    private final String name;
-    private final Capsule capsule;
-    private final List<Booster> boosters;
-
-    public Launcher(String name, Capsule capsule) {
-        this.name = name;
-        this.capsule = capsule;
-        this.boosters = new ArrayList<>();
-    }
-
-    public void addBooster(Booster booster) {
-        this.boosters.add(booster);
-    }
-
-    public double getTotalWeight() {
-        double total = capsule.getWeight();
-        for (Booster b : boosters) {
-            total += b.getWeight();
-        }
-        return total;
-    }
-
-    public long getTotalPrice() {
-        long total = capsule.getPrice();
-        for (Booster b : boosters) {
-            total += b.getPrice();
-        }
-        return total;
+public abstract class Launcher {
+    private final boolean isCrewed;
+    private final double maxFuel;
+    private final int maxBooster;
+    private final double payloadCapacity;
+    private final long price;
+    
+    public Launcher(boolean isCrewed, double maxFuel, int maxBooster, double payloadCapacity, long price) {
+        this.isCrewed = isCrewed;
+        this.maxFuel = maxFuel;
+        this.maxBooster = maxBooster;
+        this.payloadCapacity = payloadCapacity;
+        this.price = price;
     }
 }

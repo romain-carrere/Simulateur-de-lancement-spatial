@@ -1,6 +1,9 @@
 package artemis.simulator.model.material.rocket;
 
+import artemis.simulator.model.material.booster.Booster;
 import artemis.simulator.model.material.capsule.Capsule;
+import artemis.simulator.model.material.launcher.Launcher;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -20,19 +23,31 @@ public class Rocket {
         this.boosters.add(booster);
     }
 
-    public double getTotalWeight() {
-        double total = capsule.getWeight();
-        for (Booster b : boosters) {
-            total += b.getWeight();
+    public Capsule getCapsule() {
+        return this.capsule;
+    }
+
+    public long getTotalPrice() {
+        long total = this.launcher.getPrice() + this.capsule.getPrice();
+        for (Booster b : this.boosters) {
+            total += b.getPrice();
         }
         return total;
     }
 
-    public long getTotalPrice() {
-        long total = capsule.getPrice();
-        for (Booster b : boosters) {
-            total += b.getPrice();
+    public double getTotalWeight() {
+        double totalWeight = this.launcher.getWeight() + this.capsule.getWeight();
+        for (Booster b : this.boosters) {
+            totalWeight += b.getWeight();
         }
-        return total;
+        return totalWeight;
+    }
+
+    public double getTotalThrust() {
+        double totalThrust = this.launcher.getThrust();
+        for (Booster b : this.boosters) {
+            totalThrust += b.getThrust();
+        }
+        return totalThrust;
     }
 }

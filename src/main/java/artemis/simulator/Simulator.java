@@ -12,7 +12,6 @@ import artemis.simulator.model.material.capsule.*;
 import artemis.simulator.model.material.launcher.*;
 import artemis.simulator.model.material.rocket.Rocket;
 import artemis.simulator.model.mission.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -41,7 +40,7 @@ public class Simulator {
 
         capsuleCatalog.add(new Apollo());
         capsuleCatalog.add(new CargoDragon());
-        capsuleCatalog.add(new Crewdragon());
+        capsuleCatalog.add(new CrewDragon());
         capsuleCatalog.add(new Orion());
 
         missionCatalog.add(new Moon());

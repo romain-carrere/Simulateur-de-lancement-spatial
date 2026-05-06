@@ -10,9 +10,8 @@ import artemis.simulator.model.material.capsule.Capsule;
 import artemis.simulator.model.material.launcher.Launcher;
 import artemis.simulator.model.mission.Mission;
 import artemis.simulator.util.Configuration;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Rocket {
@@ -68,7 +67,7 @@ public class Rocket {
             throw new PayloadExceededException("Payload exceeded.");
         }
 
-        if (mission.isManned() && (!this.capsule.isManned() || this.capsule.getMaxOccupants() == 0)) {
+        if (mission.isCrewed() && (!this.capsule.isCrewed() || this.capsule.getMaxOccupants() == 0)) {
             throw new MannedMissionMismatchException("Capsule incompatible with a manned mission.");
         }
 

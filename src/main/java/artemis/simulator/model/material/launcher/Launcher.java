@@ -19,8 +19,10 @@ public abstract class Launcher {
     
     public String getName() { return name; }
     public boolean isCrewed() { return isCrewed; }
-    public double getmaxFuel() { return maxFuel; }
-    public int getmaxBooster() { return maxBooster; }
-    public double getpayloadCapacity() { return payloadCapacity; }
-    public long getprice() { return price; }
+    public double getMaxFuelCapacity() { return maxFuel; }
+    public int getMaxBoosters() { return maxBooster; }
+    public double getPayloadCapacity() { return payloadCapacity; }
+    public long getPrice() { return price; }
+    public double getWeight() { return 0.0; }
+    public double getThrust() { return 0.0; }
 }

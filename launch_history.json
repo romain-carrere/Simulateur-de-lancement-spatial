@@ -1,0 +1,12 @@
+[
+  {
+    "date": "2026-05-06 11:24:34",
+    "missionName": "Moon",
+    "launcherName": "Ariane 5",
+    "capsuleName": "Crew Dragon",
+    "boosterCount": 2,
+    "success": false,
+    "failureReason": "Payload exceeded.",
+    "totalCost": 149154.0
+  }
+]

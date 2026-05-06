@@ -1,6 +1,10 @@
 package artemis.simulator;
 
 import artemis.simulator.exception.InsufficientFuelException;
+import artemis.simulator.exception.MannedMissionMismatchException;
+import artemis.simulator.exception.PayloadExceededException;
+import artemis.simulator.exception.TechnicalAnomalyException;
+import artemis.simulator.exception.TooManyBoostersException;
 import artemis.simulator.model.material.booster.Booster;
 import artemis.simulator.model.material.capsule.*;
 import artemis.simulator.model.material.launcher.*;
@@ -79,13 +83,14 @@ public class Simulator {
 
                         try {
                             rocket.performPreFlightChecks(selectedMission);
+                            rocket.launch();
                             selectedMission.runSimulation(rocket);
                             
                             String record = "SUCCESS | Mission: " + selectedMission.getName() + " | Launcher: " + selectedLauncher.getName() + " | Capsule: " + selectedCapsule.getName() + " | Boosters: " + selectedBoosters.size();
                             launchHistory.add(record);
                             System.out.println("Launch sequence completed successfully.");
                             
-                        } catch (InsufficientFuelException e) {
+                        } catch (InsufficientFuelException | PayloadExceededException | TooManyBoostersException | MannedMissionMismatchException | TechnicalAnomalyException e) {
                             String record = "FAILURE | Mission: " + selectedMission.getName() + " | Reason: " + e.getMessage();
                             launchHistory.add(record);
                             System.out.println("ABORT: " + e.getMessage());

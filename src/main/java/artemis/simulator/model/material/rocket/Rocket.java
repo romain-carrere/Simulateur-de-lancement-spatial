@@ -1,6 +1,10 @@
 package artemis.simulator.model.material.rocket;
 
 import artemis.simulator.exception.InsufficientFuelException;
+import artemis.simulator.exception.MannedMissionMismatchException;
+import artemis.simulator.exception.PayloadExceededException;
+import artemis.simulator.exception.TechnicalAnomalyException;
+import artemis.simulator.exception.TooManyBoostersException;
 import artemis.simulator.model.material.booster.Booster;
 import artemis.simulator.model.material.capsule.Capsule;
 import artemis.simulator.model.material.launcher.Launcher;
@@ -8,12 +12,14 @@ import artemis.simulator.model.mission.Mission;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Rocket {
 
     private final Launcher launcher;
     private final Capsule capsule;
     private final List<Booster> boosters;
+    private static final double ANOMALY_PROBABILITY = 0.05;
 
     public Rocket(Launcher launcher, Capsule capsule) {
         this.launcher = launcher;
@@ -53,13 +59,31 @@ public class Rocket {
         return totalThrust;
     }
 
-    public void performPreFlightChecks(Mission mission) throws InsufficientFuelException {
+    public void performPreFlightChecks(Mission mission) throws InsufficientFuelException, PayloadExceededException, TooManyBoostersException, MannedMissionMismatchException {
+        if (this.boosters.size() > this.launcher.getMaxBoosters()) {
+            throw new TooManyBoostersException("Too many boosters.");
+        }
+
+        if (getTotalWeight() > this.launcher.getPayloadCapacity()) {
+            throw new PayloadExceededException("Payload exceeded.");
+        }
+
+        if (mission.isManned() && (!this.capsule.isManned() || this.capsule.getMaxOccupants() == 0)) {
+            throw new MannedMissionMismatchException("Capsule incompatible with a manned mission.");
+        }
+
         double requiredFuel = calculateRequiredFuel(mission);
         double maxCapacity = this.launcher.getMaxFuelCapacity();
 
         if (requiredFuel > maxCapacity) {
-            throw new InsufficientFuelException("Launch failure: Insufficient fuel. Required: " 
-                    + requiredFuel + " t, Max capacity: " + maxCapacity + " t.");
+            throw new InsufficientFuelException("Insufficient fuel.");
+        }
+    }
+
+    public void launch() throws TechnicalAnomalyException {
+        Random random = new Random();
+        if (random.nextDouble() < ANOMALY_PROBABILITY) {
+            throw new TechnicalAnomalyException("Unexpected technical anomaly.");
         }
     }
 

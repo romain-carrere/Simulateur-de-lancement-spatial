@@ -4,6 +4,7 @@
         "booster",
         "capsule",
         "launcher",
-        "Exception"
+        "Exception",
+        "log"
     ]
 }

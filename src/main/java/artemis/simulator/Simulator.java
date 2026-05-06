@@ -5,6 +5,8 @@ import artemis.simulator.exception.MannedMissionMismatchException;
 import artemis.simulator.exception.PayloadExceededException;
 import artemis.simulator.exception.TechnicalAnomalyException;
 import artemis.simulator.exception.TooManyBoostersException;
+import artemis.simulator.model.history.LaunchHistoryLogger;
+import artemis.simulator.model.history.LaunchResult;
 import artemis.simulator.model.material.booster.Booster;
 import artemis.simulator.model.material.capsule.*;
 import artemis.simulator.model.material.launcher.*;
@@ -21,7 +23,6 @@ public class Simulator {
     private static final List<Launcher> launcherCatalog = new ArrayList<>();
     private static final List<Capsule> capsuleCatalog = new ArrayList<>();
     private static final List<Mission> missionCatalog = new ArrayList<>();
-    private static final List<String> launchHistory = new ArrayList<>();
     
     private static Launcher selectedLauncher = null;
     private static Capsule selectedCapsule = null;
@@ -47,7 +48,7 @@ public class Simulator {
         missionCatalog.add(new Mars());
         missionCatalog.add(new ISS());
         missionCatalog.add(new EarthOrbit());
-        missionCatalog.add(new AsteroidMining());
+        missionCatalog.add(new StarlinkMission());
 
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -86,24 +87,41 @@ public class Simulator {
                             rocket.launch();
                             selectedMission.runSimulation(rocket);
                             
-                            String record = "SUCCESS | Mission: " + selectedMission.getName() + " | Launcher: " + selectedLauncher.getName() + " | Capsule: " + selectedCapsule.getName() + " | Boosters: " + selectedBoosters.size();
-                            launchHistory.add(record);
+                            LaunchResult result = new LaunchResult(
+                                selectedMission.getName(),
+                                selectedLauncher.getName(),
+                                selectedCapsule.getName(),
+                                selectedBoosters.size(),
+                                true,
+                                null,
+                                rocket.calculateTotalLaunchCost(selectedMission)
+                            );
+                            LaunchHistoryLogger.saveLaunch(result);
                             System.out.println("Launch sequence completed successfully.");
                             
                         } catch (InsufficientFuelException | PayloadExceededException | TooManyBoostersException | MannedMissionMismatchException | TechnicalAnomalyException e) {
-                            String record = "FAILURE | Mission: " + selectedMission.getName() + " | Reason: " + e.getMessage();
-                            launchHistory.add(record);
+                            LaunchResult result = new LaunchResult(
+                                selectedMission.getName(),
+                                selectedLauncher.getName(),
+                                selectedCapsule.getName(),
+                                selectedBoosters.size(),
+                                false,
+                                e.getMessage(),
+                                rocket.calculateTotalLaunchCost(selectedMission)
+                            );
+                            LaunchHistoryLogger.saveLaunch(result);
                             System.out.println("ABORT: " + e.getMessage());
                         }
                     }
                     break;
                 case "4":
                     System.out.println("\n--- LAUNCH HISTORY ---");
-                    if (launchHistory.isEmpty()) {
+                    List<String> history = LaunchHistoryLogger.loadFormattedHistory();
+                    if (history.isEmpty()) {
                         System.out.println("No launches recorded yet.");
                     } else {
-                        for (int i = 0; i < launchHistory.size(); i++) {
-                            System.out.println((i + 1) + ". " + launchHistory.get(i));
+                        for (int i = 0; i < history.size(); i++) {
+                            System.out.println((i + 1) + ". " + history.get(i));
                         }
                     }
                     break;

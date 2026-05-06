@@ -9,6 +9,7 @@ import artemis.simulator.model.material.booster.Booster;
 import artemis.simulator.model.material.capsule.Capsule;
 import artemis.simulator.model.material.launcher.Launcher;
 import artemis.simulator.model.mission.Mission;
+import artemis.simulator.util.Configuration;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -19,7 +20,6 @@ public class Rocket {
     private final Launcher launcher;
     private final Capsule capsule;
     private final List<Booster> boosters;
-    private static final double ANOMALY_PROBABILITY = 0.05;
 
     public Rocket(Launcher launcher, Capsule capsule) {
         this.launcher = launcher;
@@ -82,12 +82,16 @@ public class Rocket {
 
     public void launch() throws TechnicalAnomalyException {
         Random random = new Random();
-        if (random.nextDouble() < ANOMALY_PROBABILITY) {
+        if (random.nextDouble() < Configuration.PROBABILITY_PROBLEM) {
             throw new TechnicalAnomalyException("Unexpected technical anomaly.");
         }
     }
 
-    private double calculateRequiredFuel(Mission mission) {
+    public double calculateRequiredFuel(Mission mission) {
         return (getTotalWeight() * mission.getDistance() * mission.getFuelCoefficient()) / 1000.0;
+    }
+
+    public double calculateTotalLaunchCost(Mission mission) {
+        return getTotalPrice() + (calculateRequiredFuel(mission) * Configuration.PRICE_KEROSENE_IN_TONNE);
     }
 }

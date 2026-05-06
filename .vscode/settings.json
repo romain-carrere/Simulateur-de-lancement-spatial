@@ -5,6 +5,7 @@
         "capsule",
         "launcher",
         "Exception",
-        "log"
+        "log",
+        "README"
     ]
 }

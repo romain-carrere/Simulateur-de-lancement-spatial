@@ -1,8 +1,10 @@
 package artemis.simulator.model.material.rocket;
 
+import artemis.simulator.exception.InsufficientFuelException;
 import artemis.simulator.model.material.booster.Booster;
 import artemis.simulator.model.material.capsule.Capsule;
 import artemis.simulator.model.material.launcher.Launcher;
+import artemis.simulator.model.mission.Mission;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -49,5 +51,19 @@ public class Rocket {
             totalThrust += b.getThrust();
         }
         return totalThrust;
+    }
+
+    public void performPreFlightChecks(Mission mission) throws InsufficientFuelException {
+        double requiredFuel = calculateRequiredFuel(mission);
+        double maxCapacity = this.launcher.getMaxFuelCapacity();
+
+        if (requiredFuel > maxCapacity) {
+            throw new InsufficientFuelException("Launch failure: Insufficient fuel. Required: " 
+                    + requiredFuel + " t, Max capacity: " + maxCapacity + " t.");
+        }
+    }
+
+    private double calculateRequiredFuel(Mission mission) {
+        return (getTotalWeight() * mission.getDistance() * mission.getFuelCoefficient()) / 1000.0;
     }
 }

@@ -1,5 +1,6 @@
 package artemis.simulator;
 
+import artemis.simulator.exception.InsufficientFuelException;
 import artemis.simulator.model.material.booster.Booster;
 import artemis.simulator.model.material.capsule.*;
 import artemis.simulator.model.material.launcher.*;
@@ -71,10 +72,24 @@ public class Simulator {
                     if (selectedLauncher == null || selectedCapsule == null || selectedMission == null) {
                         System.out.println("Configuration incomplete. Please select a launcher, a capsule, and a mission first.");
                     } else {
-                        Rocket rocket = new Rocket("Artemis-1", selectedLauncher, selectedCapsule, selectedBoosters);
-                        selectedMission.runSimulation(rocket);
-                        String record = "Mission: " + selectedMission.getName() + " | Launcher: " + selectedLauncher.getName() + " | Capsule: " + selectedCapsule.getName() + " | Boosters: " + selectedBoosters.size();
-                        launchHistory.add(record);
+                        Rocket rocket = new Rocket(selectedLauncher, selectedCapsule);
+                        for (Booster b : selectedBoosters) {
+                            rocket.addBooster(b);
+                        }
+
+                        try {
+                            rocket.performPreFlightChecks(selectedMission);
+                            selectedMission.runSimulation(rocket);
+                            
+                            String record = "SUCCESS | Mission: " + selectedMission.getName() + " | Launcher: " + selectedLauncher.getName() + " | Capsule: " + selectedCapsule.getName() + " | Boosters: " + selectedBoosters.size();
+                            launchHistory.add(record);
+                            System.out.println("Launch sequence completed successfully.");
+                            
+                        } catch (InsufficientFuelException e) {
+                            String record = "FAILURE | Mission: " + selectedMission.getName() + " | Reason: " + e.getMessage();
+                            launchHistory.add(record);
+                            System.out.println("ABORT: " + e.getMessage());
+                        }
                     }
                     break;
                 case "4":
